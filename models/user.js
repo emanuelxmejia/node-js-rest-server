@@ -34,9 +34,14 @@ const UserSchema = Schema({
 
 });
 
-// Sacando el password y la version de la respuesta que me regresa el req
+// Sacando el password y la version de la respuesta que me regresa el request
 UserSchema.methods.toJSON = function() {
-  const { __v, password, ...user } = this.toObject();
+  const { __v, password, _id, ...user } = this.toObject();
+
+  // primero extraimos el id de la respuesta, despues asignamos una nueva
+  // propiedad a la respuesta que es "uid" que va a tener el valor del "_id"
+  user.uid = _id;
+
   return user;
 }
 
